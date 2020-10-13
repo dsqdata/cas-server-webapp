@@ -160,13 +160,19 @@
         <!-- 指定使用的数据源，此处dataSource是已配置好的数据源 -->
         <constructor-arg index="0" ref="dataSource"/>
         <!-- 从数据库中查询信息的SQL语句，通常只需要修改表名即可 -->
+<!--        <constructor-arg index="1" value="select * from sys_user where {0} {1} {2}"/>-->
         <constructor-arg index="1" value="select * from sys_user where {0}"/>
         <property name="queryAttributeMapping">
             <map>
                 <!-- 上述查询的参数，将userName替换为表中表示用户名的字段名称 -->
                 <entry key="username" value="username"/>
+<!--                <entry key="phone" value="phone" />-->
+<!--                <entry key="email" value="email" />-->
             </map>
         </property>
+<!--        <property name="queryType">-->
+<!--            <value>OR</value>-->
+<!--        </property>-->
         <property name="resultAttributeMapping">
             <map>
                 <!-- 需要返回给Web应用的其它信息，多个信息时可继续增加entry节点 -->
