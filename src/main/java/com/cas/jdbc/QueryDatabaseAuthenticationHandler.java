@@ -18,14 +18,6 @@
  */
 package com.cas.jdbc;
 
-import java.security.GeneralSecurityException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import javax.security.auth.login.AccountNotFoundException;
-import javax.security.auth.login.FailedLoginException;
-import javax.validation.constraints.NotNull;
-
 import org.jasig.cas.authentication.HandlerResult;
 import org.jasig.cas.authentication.PreventedException;
 import org.jasig.cas.authentication.UsernamePasswordCredential;
@@ -36,6 +28,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 
+import javax.security.auth.login.AccountNotFoundException;
+import javax.security.auth.login.FailedLoginException;
+import javax.validation.constraints.NotNull;
+import java.security.GeneralSecurityException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Class that if provided a query that returns a password (parameter of query
  * must be username) will compare that password to a translated version of the
@@ -45,31 +44,32 @@ import org.springframework.jdbc.core.RowMapper;
  * @author Scott Battaglia
  * @author Dmitriy Kopylenko
  * @author Marvin S. Addison
- *
  * @since 3.0
  */
 public class QueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePasswordAuthenticationHandler {
-	protected final Logger log = LoggerFactory.getLogger(this.getClass());
+    protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @NotNull
     private String sql;
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected final HandlerResult authenticateUsernamePasswordInternal(final UsernamePasswordCredential credential)
             throws GeneralSecurityException, PreventedException {
 
         final String username = credential.getUsername();
         try {
-        	Member member = findMember(username);
-        	if (member == null) {
-        		throw new AccountNotFoundException(username + " not found");
-			}
-			final String encPass = getPasswordEncoder().encode(getPasswordEncoder().encode(credential.getPassword())+member.getSalt());
-			//final String encPass = getPasswordEncoder().encode(credential.getPassword());
-			if (!member.getPassword().equals(encPass)) {
-				throw new FailedLoginException("Password does not match value on record.");
-			}
+            Member member = findMember(username);
+            if (member == null) {
+                throw new AccountNotFoundException(username + " not found");
+            }
+            //final String encPass = getPasswordEncoder().encode(getPasswordEncoder().encode(credential.getPassword())+member.getSalt());
+            //final String encPass = getPasswordEncoder().encode(credential.getPassword());
+            //if (!member.getPassword().equals(encPass)) {
+            //	throw new FailedLoginException("Password does not match value on record.");
+            //}
         } catch (final IncorrectResultSizeDataAccessException e) {
             if (e.getActualSize() == 0) {
                 throw new AccountNotFoundException(username + " not found with SQL query");
@@ -83,8 +83,7 @@ public class QueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePass
     }
 
 
-
-	/**
+    /**
      * @param sql The sql to set.
      */
     public void setSql(final String sql) {
@@ -92,18 +91,18 @@ public class QueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePass
     }
 
     private Member findMember(String username) {
-		boolean ismobile = false;
+        boolean ismobile = false;
 
-		String propertyName = ismobile ? "mobile" : (KsdUtils.isEmail(username) ? "email" : "nickname");
-		String sql = "select * from kf_member where " + propertyName + " = ?";
-		Member member = null;
-		try{
-				member = (Member) getJdbcTemplate().queryForObject(sql,new RowMapper<Object>(){
+        String propertyName = ismobile ? "mobile" : (KsdUtils.isEmail(username) ? "email" : "username");
+        String sql = "select * from sys_user where " + propertyName + " = ?";
+        Member member = null;
+        try {
+            member = (Member) getJdbcTemplate().queryForObject(sql, new RowMapper<Object>() {
 
-				@Override
-				public Object mapRow(ResultSet resultSet, int arg1){
-					Member member = new Member();
-					try {
+                @Override
+                public Object mapRow(ResultSet resultSet, int arg1) {
+                    Member member = new Member();
+                    try {
 						/*
 						member.setMemberId(resultSet.getInt("member_id"));
 						member.setEmail(resultSet.getString("member_email"));
@@ -111,61 +110,60 @@ public class QueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePass
 						member.setMobile(resultSet.getString("member_mobile"));
 						member.setPassword(resultSet.getString("member_passwd"));
 						*/
-						member.setMemberId(resultSet.getInt("member_id"));
-						member.setEmail(resultSet.getString("email"));
-						member.setUsername(resultSet.getString("nickname"));
-						member.setMobile(resultSet.getString("mobile"));
-						member.setPassword(resultSet.getString("passwd"));
-						member.setSalt(resultSet.getString("salt"));
-					} catch (SQLException e) {
-						e.printStackTrace();
-						member = null;
-					}
-					return member;
-				}
-			},username);
+                        member.setMemberId(resultSet.getInt("id"));
+                        member.setEmail(resultSet.getString("email"));
+                        member.setUsername(resultSet.getString("nick_name"));
+                        member.setMobile(resultSet.getString("phone"));
+                        member.setPassword(resultSet.getString("password"));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        member = null;
+                    }
+                    return member;
+                }
+            }, username);
 
-		}catch(Exception e){
-			log.error(e.getMessage());
-		}
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
 
-		return member;
-	}
+        return member;
+    }
 
     private Member findShopncMember(String username) {
-		boolean ismobile = false;
+        boolean ismobile = false;
 
-		String propertyName = ismobile ? "mobile" : (KsdUtils.isEmail(username) ? "member_email" : "member_name");
-		String sql = "select * from shopnc_member where " + propertyName + " = ?";
+        String propertyName = ismobile ? "mobile" : (KsdUtils.isEmail(username) ? "member_email" : "member_name");
+        String sql = "select * from shopnc_member where " + propertyName + " = ?";
 
-		Member member = null;
-		try{
-				member = (Member) getJdbcTemplate().queryForObject(sql,new RowMapper<Object>(){
+        Member member = null;
+        try {
+            member = (Member) getJdbcTemplate().queryForObject(sql, new RowMapper<Object>() {
 
-				@Override
-				public Object mapRow(ResultSet resultSet, int arg1){
-					Member member = new Member();
-					try {
+                @Override
+                public Object mapRow(ResultSet resultSet, int arg1) {
+                    Member member = new Member();
+                    try {
 
-						member.setMemberId(resultSet.getInt("member_id"));
-						member.setEmail(resultSet.getString("member_email"));
-						member.setUsername(resultSet.getString("member_name"));
-						member.setMobile(resultSet.getString("member_mobile"));
-						member.setPassword(resultSet.getString("member_passwd"));
+                        member.setMemberId(resultSet.getInt("member_id"));
+                        member.setEmail(resultSet.getString("member_email"));
+                        member.setUsername(resultSet.getString("member_name"));
+                        member.setMobile(resultSet.getString("member_mobile"));
+                        member.setPassword(resultSet.getString("member_passwd"));
 
 
-					} catch (SQLException e) {
-						e.printStackTrace();
-						member = null;
-					}
-					return member;
-				}
-			},username);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        member = null;
+                    }
+                    return member;
+                }
+            }, username);
 
-		}catch(Exception e){
-			log.error(e.getMessage());
-		}
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
 
-		return member;
-	}
+        return member;
+    }
 }
