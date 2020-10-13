@@ -20,6 +20,7 @@
 				</div>
 				<div class="login-password">
 					<span class="login-text">密码</span>
+					<%--<form:password id="password" path="password" htmlEscape="true" autocomplete="off" tabindex="2" maxlength="20" />--%>
 					<form:password id="password" path="password" htmlEscape="true" autocomplete="off" tabindex="2" maxlength="20" />
 				</div>
 				<input type="hidden" name="lt" value="${loginTicket}" />

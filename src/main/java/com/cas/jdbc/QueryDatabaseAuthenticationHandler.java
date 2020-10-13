@@ -70,6 +70,11 @@ public class QueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePass
             //if (!member.getPassword().equals(encPass)) {
             //	throw new FailedLoginException("Password does not match value on record.");
             //}
+            SSHAPasswordEncoder se = new SSHAPasswordEncoder();
+            System.out.println(se.matches(credential.getPassword(),member.getPassword()));
+            if (!se.matches(credential.getPassword(),member.getPassword())) {
+            	throw new FailedLoginException("Password does not match value on record.");
+            }
         } catch (final IncorrectResultSizeDataAccessException e) {
             if (e.getActualSize() == 0) {
                 throw new AccountNotFoundException(username + " not found with SQL query");
@@ -113,8 +118,9 @@ public class QueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePass
                         member.setMemberId(resultSet.getInt("id"));
                         member.setEmail(resultSet.getString("email"));
                         member.setUsername(resultSet.getString("nick_name"));
-                        member.setMobile(resultSet.getString("phone"));
                         member.setPassword(resultSet.getString("password"));
+                        member.setMobile(resultSet.getString("phone"));
+
                     } catch (SQLException e) {
                         e.printStackTrace();
                         member = null;
