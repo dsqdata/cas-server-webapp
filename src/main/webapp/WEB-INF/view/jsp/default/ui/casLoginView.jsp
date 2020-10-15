@@ -434,13 +434,15 @@
         $.ajax({
             type: "get",
             async: false,
-            url: "${pageContext.request.contextPath}/f/sys/sendSms/checkLoginName?mobile="+$("#username2").val(),
+            url: "${pageContext.request.contextPath}/SendMessage?mobile="+$("#telephone").val(),
             async:false,
             success: function (obj) {
-                if(obj<1){
+
+                if(obj.num<1){
                     alert("该账号不存在！");
                 }else{
-                    $.ajax({
+                    alert("发送短信");
+                   /* $.ajax({
                         type: "post",
                         async: false,
                         url: "${pageContext.request.contextPath}/f/sys/sendSms/doPost",
@@ -471,7 +473,7 @@
                                 return true;
                             }
                         }
-                        ,1000)
+                        ,1000)*/
                 }
             },
             error: function (errorMsg) {
