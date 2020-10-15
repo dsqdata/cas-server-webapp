@@ -348,8 +348,8 @@
                             <input type="hidden" name="execution" value="${flowExecutionKey}" />
                             <input type="hidden" name="_eventId" value="submit" />
                             <input class="login-button" type="submit" value="登录" />
-                            <div id="msgContainer" class="login-error">
-                                <form:errors path="*" id="msg" cssClass="" element="div" />
+                            <div id="msgC" class="login-error">
+
                             </div>
                             <div style="text-align: center">
                                 <span>请点击右上角图标,切换其他方式登录</span>
@@ -389,6 +389,19 @@
             }
         });
     })
+
+    function loginChange(){
+        if($('#block').css("display")=="block"){
+
+            $("#block").css("display","none");
+            $("#none").css("display","block");
+
+        }else{
+            $("#block").css("display","block");
+            $("#none").css("display","none");
+        }
+
+    }
     function changeCaptcha() {
         $.ajax({
             url:"/SendCaptcha",
@@ -402,16 +415,67 @@
             }
         });
     }
-    function loginChange(){
-        if($('#block').css("display")=="block"){
-
-            $("#block").css("display","none");
-            $("#none").css("display","block");
-
-        }else{
-            $("#block").css("display","block");
-            $("#none").css("display","none");
+    function btnCancel2(){
+        var $mobile = $("input[id=telephone]");
+        var data = {};
+        data.mobile = $.trim($mobile.val());
+        if(data.mobile == ''){
+           // alert('请输入手机号码');
+            $("#msgC").html("请输入手机号码");
+            return;
         }
+        var reg = /^1\d{10}$/;
+        if(!reg.test(data.mobile)){
+            //alert('请输入合法的手机号码');
+            $("#msgC").html("请输入合法的手机号码");
+            return ;
+        }
+        $("#msgC").html("");
+        $.ajax({
+            type: "get",
+            async: false,
+            url: "${pageContext.request.contextPath}/f/sys/sendSms/checkLoginName?mobile="+$("#username2").val(),
+            async:false,
+            success: function (obj) {
+                if(obj<1){
+                    alert("该账号不存在！");
+                }else{
+                    $.ajax({
+                        type: "post",
+                        async: false,
+                        url: "${pageContext.request.contextPath}/f/sys/sendSms/doPost",
+                        data: {'mobile':data.mobile},
+                        dataType: "json",
+                        success: function (data) {
+                            if(data){
 
+                            }
+                        },
+                        error: function (errorMsg) {
+                        }
+                    });
+                    time2 = 60;
+                    //设置一个定时器
+                    var timeout2 = setInterval(
+                        function(obj){
+                            if(time2==0){//重新获取验证码
+                                $("#but2").attr("disabled",false);
+                                $("#but2").empty().append("发送验证码");
+                                time2 = 60;
+                                clearInterval(timeout2);
+                                return false;//清除定时器
+                            }else{
+                                $("#but2").attr("disabled",true);
+                                time2--;
+                                $("#but2").empty().append("重新发送("+time2+")");
+                                return true;
+                            }
+                        }
+                        ,1000)
+                }
+            },
+            error: function (errorMsg) {
+            }
+        });
     }
 </script>
