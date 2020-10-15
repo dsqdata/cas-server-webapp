@@ -288,6 +288,29 @@
                         <div class="login-input">
                             <form:password placeholder="请输入密码" id="password" path="password" htmlEscape="true" autocomplete="off" tabindex="2" maxlength="20" />
                         </div>
+                     <%--  <div class="login-input">
+                           <div>验证码
+                               <form:input placeholder="请输入验证码" id="authcode" path="authcode" htmlEscape="true" autocomplete="off" tabindex="1"  maxlength="40" />
+                           </div>
+                           <div> <img  id="imgCaptcha"  style='width:40%;float: right' onclick="changeCaptcha()"  /></div>
+
+                       </div>--%>
+                       <section class="row fl-controls-left">
+                           <label for="authcode"><spring:message code="screen.welcome.label.authcode" /></label>
+                           <spring:message code="screen.welcome.label.authcode.accesskey" var="authcodeAccessKey" />
+                           <table>
+                               <tr>
+                                   <td>
+                                        验证码
+                                       <form:input cssClass="required" cssErrorClass="error" id="authcode" size="10" tabindex="2" path="authcode"
+                                                   accesskey="${authcodeAccessKey}" htmlEscape="true" autocomplete="off" />
+                                   </td>
+                                   <td style="vertical-align: bottom">
+                                       <img  id="imgCaptcha"  style='float: right' onclick="changeCaptcha()"  />
+                                   </td>
+                               </tr>
+                           </table>
+                       </section>
                         <input type="hidden" name="lt" value="${loginTicket}" />
                         <input type="hidden" name="execution" value="${flowExecutionKey}" />
                         <input type="hidden" name="_eventId" value="submit" />
@@ -352,8 +375,31 @@
         }
         $("#block").css("display","block");
         $("#none").css("display","none");
+        $.ajax({
+            url:"/SendCaptcha",
+            dataType:"json",   //返回格式为json
+            async:false,//请求是否异步，默认为异步，这也是ajax重要特性
+            type:"GET",   //请求方式
+            success:function(data){
+                console.log(data.img);
+                $("#imgCaptcha").attr("src",data.img);
 
+            }
+        });
     })
+    function changeCaptcha() {
+        $.ajax({
+            url:"/SendCaptcha",
+            dataType:"json",   //返回格式为json
+            async:false,//请求是否异步，默认为异步，这也是ajax重要特性
+            type:"GET",   //请求方式
+            success:function(data){
+                console.log(data.img);
+                $("#imgCaptcha").attr("src",data.img);
+
+            }
+        });
+    }
     function loginChange(){
         if($('#block').css("display")=="block"){
 

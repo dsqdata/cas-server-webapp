@@ -25,7 +25,8 @@
                           http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
 
-    <var name="credential" class="org.jasig.cas.authentication.UsernamePasswordCredential" />
+    <!--<var name="credential" class="org.jasig.cas.authentication.UsernamePasswordCredential" />-->
+    <var name="credential" class="com.cas.jdbc.rewrite.UsernamePasswordCaptchaCredential" />
     <on-start>
         <evaluate expression="initialFlowSetupAction" />
     </on-start>
@@ -86,14 +87,28 @@
         <binder>
             <binding property="username" />
             <binding property="password" />
+            <!--rewrite-->
+            <binding property="authcode" />
+            <!--end-->
         </binder>
         <on-entry>
             <set name="viewScope.commandName" value="'credential'" />
         </on-entry>
-		<transition on="submit" bind="true" validate="true" to="realSubmit">
+        <!--rewrite-->
+        <transition on="submit" bind="true" validate="true" to="authcodeValidate">
             <evaluate expression="authenticationViaFormAction.doBind(flowRequestContext, flowScope.credential)" />
         </transition>
-	</view-state>
+    </view-state>
+    <action-state id="authcodeValidate">
+        <evaluate expression="authenticationViaFormAction.validatorCode(flowRequestContext, flowScope.credential, messageContext)" />
+        <transition on="error" to="generateLoginTicket" />
+        <transition on="success" to="realSubmit" />
+    </action-state>
+    <!--end-->
+		<!--<transition on="submit" bind="true" validate="true" to="realSubmit">
+            <evaluate expression="authenticationViaFormAction.doBind(flowRequestContext, flowScope.credential)" />
+        </transition>
+	</view-state>-->
 
   <action-state id="realSubmit">
     <evaluate expression="authenticationViaFormAction.submit(flowRequestContext, flowScope.credential, messageContext)" />

@@ -108,7 +108,18 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
-	
+	<!--begin-->
+
+  <servlet>
+    <servlet-name>SendCaptcha</servlet-name>
+    <servlet-class>com.cas.jdbc.rewrite.SendCaptcha</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SendCaptcha</servlet-name>
+    <url-pattern>/SendCaptcha</url-pattern>
+  </servlet-mapping>
+  <!--end-->
   <servlet-mapping>
     <servlet-name>cas</servlet-name>
     <url-pattern>/login</url-pattern>
