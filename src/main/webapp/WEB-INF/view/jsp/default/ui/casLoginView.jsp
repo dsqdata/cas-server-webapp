@@ -184,7 +184,8 @@
             width: 100%;
             height: 30px;
         }
-
+        .btnRed{  background: #FE5D5A; color: #fff;border:none; text-shadow:none;  padding: 6px 19px; margin: 0 5px;}
+        .btnRed:hover{ background:#fe7371;  color: #fff;}
         @media (min-width: 800px) {
             .report-login .sign-in-right {
                 width: 300px;
@@ -288,21 +289,20 @@
                         <div class="login-input">
                             <form:password placeholder="请输入密码" id="password" path="password" htmlEscape="true" autocomplete="off" tabindex="2" maxlength="20" />
                         </div>
-                     <%--  <div class="login-input">
-                           <div>验证码
-                               <form:input placeholder="请输入验证码" id="authcode" path="authcode" htmlEscape="true" autocomplete="off" tabindex="1"  maxlength="40" />
+                       <div class="login-input">
+                           <div>
+                               <form:input placeholder="请输入验证码" style='width:40%;' id="authcode" path="authcode" htmlEscape="true" autocomplete="off" tabindex="1"  maxlength="40" />
+                               <img  id="imgCaptcha"  style='width:40%;float: right' onclick="changeCaptcha()"  />
                            </div>
-                           <div> <img  id="imgCaptcha"  style='width:40%;float: right' onclick="changeCaptcha()"  /></div>
 
-                       </div>--%>
-                       <section class="row fl-controls-left">
+                       </div>
+                       <%--<section class="row fl-controls-left login-input">
                            <label for="authcode"><spring:message code="screen.welcome.label.authcode" /></label>
                            <spring:message code="screen.welcome.label.authcode.accesskey" var="authcodeAccessKey" />
                            <table>
                                <tr>
                                    <td>
-                                        验证码
-                                       <form:input cssClass="required" cssErrorClass="error" id="authcode" size="10" tabindex="2" path="authcode"
+                                       <form:input cssClass="required" placeholder="请输入验证码"  cssErrorClass="error" id="authcode" size="10" tabindex="2" path="authcode"
                                                    accesskey="${authcodeAccessKey}" htmlEscape="true" autocomplete="off" />
                                    </td>
                                    <td style="vertical-align: bottom">
@@ -310,7 +310,7 @@
                                    </td>
                                </tr>
                            </table>
-                       </section>
+                       </section>--%>
                         <input type="hidden" name="lt" value="${loginTicket}" />
                         <input type="hidden" name="execution" value="${flowExecutionKey}" />
                         <input type="hidden" name="_eventId" value="submit" />
@@ -337,10 +337,12 @@
                         <form:form method="post" commandName="${commandName}" htmlEscape="true" onsubmit="return ksd._login();">
 
                             <div class="login-input">
-                                <form:input placeholder="请输入账号" id="username" path="username" htmlEscape="true" autocomplete="off" tabindex="1" value="${mail}" maxlength="40" />
+                                <input id="telephone" placeholder="请输入手机号"  name="telephone" type="text" >
                             </div>
                             <div class="login-input">
-                                <form:password placeholder="请输入密码" id="password" path="password" htmlEscape="true" autocomplete="off" tabindex="2" maxlength="20" />
+                                <input type="text" id="code" placeholder="请输入验证码"  name="code"  style="width: 30%;">
+                                <button id="but2" type="button" onclick="btnCancel2()" class="btn btnRed" style="width: 30%;height: 35px; float: right;" >发送验证码</button>
+
                             </div>
                             <input type="hidden" name="lt" value="${loginTicket}" />
                             <input type="hidden" name="execution" value="${flowExecutionKey}" />
