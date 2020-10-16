@@ -453,7 +453,7 @@
 
                             if(data.flag == "success"){
                                 $("#msgC").html("");
-                                /*  time2 = 60;
+                                time2 = 60;
                                //设置一个定时器
                                var timeout2 = setInterval(
                                    function(obj){
@@ -470,7 +470,7 @@
                                            return true;
                                        }
                                    }
-                                   ,1000) */
+                                   ,1000)
                             }else{
                                 $("#msgC").html(data.message);
                             }

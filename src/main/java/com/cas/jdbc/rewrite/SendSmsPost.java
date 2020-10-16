@@ -45,11 +45,11 @@ public class SendSmsPost extends HttpServlet{
             SendMessageUtil.sendMessage(searchText,result,"");
             //JavaRestTemplate.sendMessage(searchText,result,"");
             //验证码信息
-            request.getSession().setAttribute("numberCode",result);
+            request.getSession().setAttribute("captchaResult",result);
             resMap.put("flag","success");
             resMap.put("message","发送短信成功");
         } catch (Exception e) {
-            request.getSession().setAttribute("numberCode","");
+            request.getSession().setAttribute("captchaResult","");
             resMap.put("flag","fail");
             resMap.put("message","发送短信失败");
             log.error(e.getMessage());

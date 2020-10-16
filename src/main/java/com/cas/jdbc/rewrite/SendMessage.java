@@ -47,7 +47,7 @@ public class SendMessage extends HttpServlet{
         String nick_name = telephone;
         String username = telephone;
 
-        String sql = "select count(*) as num  from sys_user where  phone  = ? or nick_name = ?  or username  = ?  and enabled = 1";
+        String sql = "select count(*) as num ,username,password from sys_user where  phone  = ? or nick_name = ?  or username  = ?  and enabled = 1";
         Map m = new HashMap();
         try {
            m =  jdbcTemplate.queryForMap(sql,phone,nick_name,username) ;
