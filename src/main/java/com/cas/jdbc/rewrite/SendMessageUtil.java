@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.UUID;
 
 @Component
@@ -17,9 +18,9 @@ public class SendMessageUtil {
     private static long expire  =14000;
 
     private static String pathUrl = "http://127.0.0.1:8005/sys/sendMessage/doPost";
-    private static String pathUrlN = "http://127.0.0.1:8005/api/mq/sms/sendSms";
+    private static String pathUrlN = "http://127.0.0.1:8005/api/mq/sms/sendSmsCAS";
     private static String loginUrl = "http://127.0.0.1:8005/auth/login";
-    private static String username = "统一认证平台";
+    private static String username = "cas";
     private static String password = "Jx6VWC98ENsN5SXgMi91QgdUiU8XQ9Y+gjKDHTnOB9q5TxXAaMraFZ/WFOJ5jRUwfZPmFfNpfXTvs25gDMrArw==";
     private static String templateN = "SMS_184220413";
     private static String sign = "园区企业服务平台";
@@ -40,12 +41,13 @@ public class SendMessageUtil {
         datas.put("contents",datass);
         datas.put("mobile",mobile);
         datas.put("sender","");
-        datas.put("sign",sign);
+        //datas.put("sign",sign);
         datas.put("template",templateN);
         datas.put("id",UUID.randomUUID().toString());
 
         URL url = new URL(pathUrlN);
-        //打开和url之间的连接
+
+                //打开和url之间的连接
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         PrintWriter out = null;
         //请求方式
@@ -55,7 +57,7 @@ public class SendMessageUtil {
         conn.setRequestProperty("connection", "Keep-Alive");
         conn.setRequestProperty("Content-Type","application/json;charset=UTF-8");
         conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
-        conn.setRequestProperty("Authorization",tokens+"123");
+        conn.setRequestProperty("Authorization",tokens);
         //设置是否向httpUrlConnection输出，设置是否从httpUrlConnection读入，此外发送post请求必须设置这两个
         //最常用的Http请求无非是get和post，get请求可以获取静态页面，也可以把参数放在URL字串后面，传递给servlet，
         //post与get的 不同之处在于post的参数不是放在URL字串里面，而是放在http请求的正文内。
@@ -109,13 +111,13 @@ public class SendMessageUtil {
     }
 
 
-public static String getToken() throws  Exception{
+    public static String getToken() throws  Exception{
         String str = "";
         String token = "token";
         String tokens = "";
         com.alibaba.fastjson.JSONObject dataObject = null;
 
-        JSONObject data = new JSONObject();
+        com.alibaba.fastjson.JSONObject data = new  com.alibaba.fastjson.JSONObject();
         data.put("username", username);
         data.put("password", password);
 
@@ -165,9 +167,6 @@ public static String getToken() throws  Exception{
 
         return tokens;
     }
-
-
-
 
 
 }

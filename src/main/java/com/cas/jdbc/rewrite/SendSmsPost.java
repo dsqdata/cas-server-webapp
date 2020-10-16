@@ -45,7 +45,7 @@ public class SendSmsPost extends HttpServlet{
             SendMessageUtil.sendMessage(searchText,result,"");
             //JavaRestTemplate.sendMessage(searchText,result,"");
             //验证码信息
-            request.getSession().setAttribute("numberCode",resMap.get("numberCode"));
+            request.getSession().setAttribute("numberCode",result);
             resMap.put("flag","success");
             resMap.put("message","发送短信成功");
         } catch (Exception e) {
@@ -54,8 +54,6 @@ public class SendSmsPost extends HttpServlet{
             resMap.put("message","发送短信失败");
             log.error(e.getMessage());
         }
-
-
 
         String resJSON = JSONObject.toJSONString(resMap);     // 转换为json
         out.print(resJSON); // 输出
