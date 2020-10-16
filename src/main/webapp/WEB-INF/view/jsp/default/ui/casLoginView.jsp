@@ -400,7 +400,7 @@
             $("#block").css("display","block");
             $("#none").css("display","none");
         }
-
+        $("#msgC").html("");
     }
     function changeCaptcha() {
         $.ajax({
@@ -430,7 +430,7 @@
             $("#msgC").html("请输入合法的手机号码");
             return ;
         }
-        $("#msgC").html("");
+
         $.ajax({
             type: "get",
             async: false,
@@ -439,41 +439,46 @@
             success: function (obj) {
 
                 if(obj.num<1){
-                    alert("该账号不存在！");
+                   // alert("该账号不存在！");
+                    $("#msgC").html("该账号不存在！");
                 }else{
-                    alert("发送短信");
-                   /* $.ajax({
-                        type: "post",
+                    //alert("发送短信");
+                    $.ajax({
+                        type: "get",
                         async: false,
-                        url: "${pageContext.request.contextPath}/f/sys/sendSms/doPost",
-                        data: {'mobile':data.mobile},
+                        url: "${pageContext.request.contextPath}/SendSmsPost?mobile="+data.mobile,
                         dataType: "json",
                         success: function (data) {
-                            if(data){
+                             console.log(data);
 
+                            if(data.flag == "success"){
+                                $("#msgC").html("");
+                                /*  time2 = 60;
+                               //设置一个定时器
+                               var timeout2 = setInterval(
+                                   function(obj){
+                                       if(time2==0){//重新获取验证码
+                                           $("#but2").attr("disabled",false);
+                                           $("#but2").empty().append("发送验证码");
+                                           time2 = 60;
+                                           clearInterval(timeout2);
+                                           return false;//清除定时器
+                                       }else{
+                                           $("#but2").attr("disabled",true);
+                                           time2--;
+                                           $("#but2").empty().append("重新发送("+time2+")");
+                                           return true;
+                                       }
+                                   }
+                                   ,1000) */
+                            }else{
+                                $("#msgC").html(data.message);
                             }
                         },
                         error: function (errorMsg) {
                         }
                     });
-                    time2 = 60;
-                    //设置一个定时器
-                    var timeout2 = setInterval(
-                        function(obj){
-                            if(time2==0){//重新获取验证码
-                                $("#but2").attr("disabled",false);
-                                $("#but2").empty().append("发送验证码");
-                                time2 = 60;
-                                clearInterval(timeout2);
-                                return false;//清除定时器
-                            }else{
-                                $("#but2").attr("disabled",true);
-                                time2--;
-                                $("#but2").empty().append("重新发送("+time2+")");
-                                return true;
-                            }
-                        }
-                        ,1000)*/
+
                 }
             },
             error: function (errorMsg) {

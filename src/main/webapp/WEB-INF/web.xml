@@ -119,6 +119,7 @@
     <servlet-name>SendCaptcha</servlet-name>
     <url-pattern>/SendCaptcha</url-pattern>
   </servlet-mapping>
+
   <servlet>
     <servlet-name>SendMessage</servlet-name>
     <servlet-class>com.cas.jdbc.rewrite.SendMessage</servlet-class>
@@ -127,6 +128,16 @@
   <servlet-mapping>
     <servlet-name>SendMessage</servlet-name>
     <url-pattern>/SendMessage</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>SendSmsPost</servlet-name>
+    <servlet-class>com.cas.jdbc.rewrite.SendSmsPost</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SendSmsPost</servlet-name>
+    <url-pattern>/SendSmsPost</url-pattern>
   </servlet-mapping>
   <!--end-->
   <servlet-mapping>
