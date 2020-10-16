@@ -36,7 +36,8 @@ public class AuthenticationViaFormCaptchaAction extends
         Long endStr = System.currentTimeMillis();
         long random =  endStr - startStr;
 
-        long expire = 300000L;//验证码5分钟内有效
+        long expire = Long.valueOf(Variable.expire) ;//验证码5分钟内有效
+
         //long expire = 10000L;
 
         if(random > expire){

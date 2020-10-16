@@ -15,15 +15,13 @@ import java.util.UUID;
 public class SendMessageUtil {
 
 
-    private static long expire  =14000;
 
-    private static String pathUrl = "http://127.0.0.1:8005/sys/sendMessage/doPost";
-    private static String pathUrlN = "http://127.0.0.1:8005/api/mq/sms/sendSmsCAS";
-    private static String loginUrl = "http://127.0.0.1:8005/auth/login";
-    private static String username = "cas";
-    private static String password = "Jx6VWC98ENsN5SXgMi91QgdUiU8XQ9Y+gjKDHTnOB9q5TxXAaMraFZ/WFOJ5jRUwfZPmFfNpfXTvs25gDMrArw==";
-    private static String templateN = "SMS_184220413";
-    private static String sign = "园区企业服务平台";
+    private static String pathUrl = Variable.pathUrl;
+    private static String pathUrlN = Variable.pathUrlN;
+    private static String loginUrl = Variable.loginUrl;
+    private static String username =Variable.username;
+    private static String password = Variable.password;
+    private static String templateN = Variable.templateN;
 
     public static String sendMessage(String mobile,String verifyCode,String content) throws  Exception{
 
