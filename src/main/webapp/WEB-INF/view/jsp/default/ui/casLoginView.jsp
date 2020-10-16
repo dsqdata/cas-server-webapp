@@ -340,8 +340,8 @@
                                 <input id="telephone" placeholder="请输入手机号"  name="telephone" type="text" >
                             </div>
                             <div class="login-input">
-                                <input type="text" id="code" placeholder="请输入验证码"  name="code"  style="width: 30%;">
-                                <button id="but2" type="button" onclick="btnCancel2()" class="btn btnRed" style="width: 30%;height: 35px; float: right;" >发送验证码</button>
+                                <input type="text" id="code" placeholder="请输入验证码"  name="code"  style="width: 40%;">
+                                <button id="but2" type="button" onclick="btnCancel2()" class="btn btnRed" style="width: 40%;height: 35px; float: right;" >发送验证码</button>
 
                             </div>
                             <input type="hidden" name="lt" value="${loginTicket}" />
