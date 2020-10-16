@@ -2,7 +2,6 @@ package com.cas.jdbc.rewrite;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wf.captcha.ArithmeticCaptcha;
-import org.jasig.cas.web.support.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +26,8 @@ public class SendCaptcha extends HttpServlet{
         Map resMap = getCode();//返回的验证码
         String resJSON = JSONObject.toJSONString(resMap);     // 转换为json
         request.getSession().setAttribute("captchaResult",resMap.get("result"));
+
+        request.getSession().setAttribute("captchaResultTime",System.currentTimeMillis());
 
         out.print(resJSON); // 输出
     }

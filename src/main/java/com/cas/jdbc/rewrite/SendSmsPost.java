@@ -3,24 +3,17 @@ package com.cas.jdbc.rewrite;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class SendSmsPost extends HttpServlet{
@@ -46,10 +39,12 @@ public class SendSmsPost extends HttpServlet{
             //JavaRestTemplate.sendMessage(searchText,result,"");
             //验证码信息
             request.getSession().setAttribute("captchaResult",result);
+            request.getSession().setAttribute("captchaResultTime",System.currentTimeMillis());
             resMap.put("flag","success");
             resMap.put("message","发送短信成功");
         } catch (Exception e) {
             request.getSession().setAttribute("captchaResult","");
+            request.getSession().setAttribute("captchaResultTime",System.currentTimeMillis());
             resMap.put("flag","fail");
             resMap.put("message","发送短信失败");
             log.error(e.getMessage());
