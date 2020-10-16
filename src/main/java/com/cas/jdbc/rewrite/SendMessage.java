@@ -38,7 +38,8 @@ public class SendMessage extends HttpServlet{
         response.setContentType("text/json; charset=utf-8");    // 设置response的编码及格式
         PrintWriter out = response.getWriter();
         Map resMap =  findPhone(searchText);//返回的验证码
-
+        request.getSession().setAttribute("mess_username",resMap.get("username"));
+        request.getSession().setAttribute("mess_password",resMap.get("password"));
         String resJSON = JSONObject.toJSONString(resMap);     // 转换为json
         out.print(resJSON); // 输出
     }

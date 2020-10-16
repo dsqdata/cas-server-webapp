@@ -18,6 +18,8 @@
  */
 package com.cas.jdbc;
 
+import com.cas.jdbc.rewrite.UsernamePasswordCaptchaCredential;
+import org.jasig.cas.authentication.Credential;
 import org.jasig.cas.authentication.HandlerResult;
 import org.jasig.cas.authentication.PreventedException;
 import org.jasig.cas.authentication.UsernamePasswordCredential;
@@ -58,7 +60,7 @@ public class QueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePass
     @Override
     protected final HandlerResult authenticateUsernamePasswordInternal(final UsernamePasswordCredential credential)
             throws GeneralSecurityException, PreventedException {
-
+        UsernamePasswordCaptchaCredential  credentialCaptcha = (UsernamePasswordCaptchaCredential) credential;
         final String username = credential.getUsername();
         try {
             Member member = findMember(username);
@@ -72,9 +74,17 @@ public class QueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePass
             //}
             SSHAPasswordEncoder se = new SSHAPasswordEncoder();
             System.out.println(se.matches(credential.getPassword(),member.getPassword()));
-            if (!se.matches(credential.getPassword(),member.getPassword())) {
-            	throw new FailedLoginException("Password does not match value on record.");
+            //判断密码 如果是mess 则不需要判断  如果是passwd 继续判断
+            if("passwd".equals(credentialCaptcha.getAuthtype())){
+                if (!se.matches(credential.getPassword(),member.getPassword())) {
+                    throw new FailedLoginException("Password does not match value on record.");
+                }
+            }else {
+                if (!credential.getPassword().equals(member.getPassword()) ) {
+                    throw new FailedLoginException("Password does not match value on record.");
+                }
             }
+
         } catch (final IncorrectResultSizeDataAccessException e) {
             if (e.getActualSize() == 0) {
                 throw new AccountNotFoundException(username + " not found with SQL query");

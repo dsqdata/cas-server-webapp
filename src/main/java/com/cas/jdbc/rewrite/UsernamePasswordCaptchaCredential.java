@@ -1,10 +1,10 @@
 package com.cas.jdbc.rewrite;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jasig.cas.authentication.UsernamePasswordCredential;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class UsernamePasswordCaptchaCredential extends
         UsernamePasswordCredential {
@@ -21,6 +21,20 @@ public class UsernamePasswordCaptchaCredential extends
     public final void setAuthcode(String authcode) {
         this.authcode = authcode;
     }
+
+
+    @NotNull
+    @Size(min = 1, message = "required.authtype")
+    private String authtype;
+
+    public String getAuthtype() {
+        return authtype;
+    }
+
+    public void setAuthtype(String authtype) {
+        this.authtype = authtype;
+    }
+
 
     @Override
     public boolean equals(final Object o) {
@@ -45,6 +59,9 @@ public class UsernamePasswordCaptchaCredential extends
         if (authcode != null ? !authcode.equals(that.authcode)
                 : that.authcode != null)
             return false;
+        if (authtype != null ? !authtype.equals(that.authtype)
+                : that.authtype != null)
+            return false;
 
         return true;
     }
@@ -52,7 +69,7 @@ public class UsernamePasswordCaptchaCredential extends
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(getUsername())
-                .append(getPassword()).append(authcode).toHashCode();
+                .append(getPassword()).append(authcode).append(authtype).toHashCode();
     }
 
 }

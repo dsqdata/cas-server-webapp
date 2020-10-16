@@ -311,6 +311,7 @@
                                </tr>
                            </table>
                        </section>--%>
+                        <form:input type="hidden" name="authtype" path="authtype" value="passwd"/>
                         <input type="hidden" name="lt" value="${loginTicket}" />
                         <input type="hidden" name="execution" value="${flowExecutionKey}" />
                         <input type="hidden" name="_eventId" value="submit" />
@@ -340,10 +341,14 @@
                                 <input id="telephone" placeholder="请输入手机号"  name="telephone" type="text" >
                             </div>
                             <div class="login-input">
-                                <input type="text" id="code" placeholder="请输入验证码"  name="code"  style="width: 40%;">
+                                <form:input type="text" path="authcode" id="code" placeholder="请输入验证码"  name="code"  style="width: 40%;"/>
                                 <button id="but2" type="button" onclick="btnCancel2()" class="btn btnRed" style="width: 40%;height: 35px; float: right;" >发送验证码</button>
 
                             </div>
+                            <form:input type="hidden" name="authtype" path="authtype" value="mess"/>
+                            <form:input type="hidden" name="mess_username" path="username" id="mess_username"/>
+                            <form:input type="hidden" name="mess_password" path="password" id="mess_password"/>
+
                             <input type="hidden" name="lt" value="${loginTicket}" />
                             <input type="hidden" name="execution" value="${flowExecutionKey}" />
                             <input type="hidden" name="_eventId" value="submit" />
@@ -401,6 +406,7 @@
             $("#none").css("display","none");
         }
         $("#msgC").html("");
+        $("#code").val("");
     }
     function changeCaptcha() {
         $.ajax({
@@ -442,6 +448,8 @@
                    // alert("该账号不存在！");
                     $("#msgC").html("该账号不存在！");
                 }else{
+                    $("#mess_username").val(obj.username)
+                    $("#mess_password").val(obj.password)
                     //alert("发送短信");
                     $.ajax({
                         type: "get",

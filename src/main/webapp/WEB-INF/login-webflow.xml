@@ -89,6 +89,7 @@
             <binding property="password" />
             <!--rewrite-->
             <binding property="authcode" />
+            <binding property="authtype" />
             <!--end-->
         </binder>
         <on-entry>
