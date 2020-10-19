@@ -319,7 +319,7 @@
                         <div id="msgContainer" class="login-error">
                             <form:errors path="*" id="msg" cssClass="" element="div" />
                         </div>
-                       <div style="text-align: center">
+                       <div  class="login-input" style="text-align: center">
                            <span>请点击右上角图标,切换其他方式登录</span>
                        </div>
                     </form:form>
@@ -356,7 +356,7 @@
                             <div id="msgC" class="login-error">
 
                             </div>
-                            <div style="text-align: center">
+                            <div  class="login-input"  style="text-align: center">
                                 <span>请点击右上角图标,切换其他方式登录</span>
                             </div>
                         </form:form>
