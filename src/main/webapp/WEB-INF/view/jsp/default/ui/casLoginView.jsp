@@ -291,7 +291,7 @@
                         </div>
                        <div class="login-input">
                            <div>
-                               <form:input placeholder="请输入验证码" style='width:40%;' id="authcode" path="authcode" htmlEscape="true" autocomplete="off" tabindex="1"  maxlength="40" />
+                               <form:input placeholder="请输入验证码" style='width:40%;' id="authcode" path="authcode" htmlEscape="true" autocomplete="off" tabindex="3"  maxlength="40" />
                                <img  id="imgCaptcha"  style='width:40%;float: right' onclick="changeCaptcha()"  />
                            </div>
 
