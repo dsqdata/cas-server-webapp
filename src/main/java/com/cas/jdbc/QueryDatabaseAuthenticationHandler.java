@@ -125,7 +125,7 @@ public class QueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePass
 						member.setMobile(resultSet.getString("member_mobile"));
 						member.setPassword(resultSet.getString("member_passwd"));
 						*/
-                        member.setMemberId(resultSet.getInt("id"));
+                        member.setMemberId(resultSet.getString("id"));
                         member.setEmail(resultSet.getString("email"));
                         member.setUsername(resultSet.getString("nick_name"));
                         member.setPassword(resultSet.getString("password"));
@@ -161,7 +161,7 @@ public class QueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePass
                     Member member = new Member();
                     try {
 
-                        member.setMemberId(resultSet.getInt("member_id"));
+                        member.setMemberId(resultSet.getString("member_id"));
                         member.setEmail(resultSet.getString("member_email"));
                         member.setUsername(resultSet.getString("member_name"));
                         member.setMobile(resultSet.getString("member_mobile"));

@@ -11,21 +11,23 @@ public class Member implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer memberId;
+	private String memberId;
 	private String email;
 	private String password;
 	private String username;
 	private String mobile;
 	
 	private String salt;
-	
-	
-	public Integer getMemberId() {
+
+
+	public String getMemberId() {
 		return memberId;
 	}
-	public void setMemberId(Integer memberId) {
+
+	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
+
 	public String getEmail() {
 		return email;
 	}
