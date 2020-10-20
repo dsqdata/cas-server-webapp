@@ -146,4 +146,14 @@
         p:password="Jx6VWC98ENsN5SXgMi91QgdUiU8XQ9Y+gjKDHTnOB9q5TxXAaMraFZ/WFOJ5jRUwfZPmFfNpfXTvs25gDMrArw=="
         p:templateN="SMS_184220413"
     />
+<!--正式环境-->
+    <!--<bean id="variable" class="com.cas.jdbc.rewrite.Variable"-->
+          <!--p:expire="300000"-->
+          <!--p:pathUrl="http://127.0.0.1:8724/sys/sendMessage/doPost"-->
+          <!--p:pathUrlN="http://127.0.0.1:8724/api/mq/sms/sendSmsCAS"-->
+          <!--p:loginUrl="http://127.0.0.1:8724/auth/login"-->
+          <!--p:username="cas"-->
+          <!--p:password="Jx6VWC98ENsN5SXgMi91QgdUiU8XQ9Y+gjKDHTnOB9q5TxXAaMraFZ/WFOJ5jRUwfZPmFfNpfXTvs25gDMrArw=="-->
+          <!--p:templateN="SMS_184220413"-->
+    <!--/>-->
 </beans>

@@ -89,6 +89,8 @@
         <prop key="/authorizationFailure.html">passThroughController</prop>
         <prop key="/status">healthCheckController</prop>
         <prop key="/statistics">statisticsController</prop>
+        <prop key="/sendCaptchaNew">sendCaptchaController</prop>
+
       </util:properties>
     </property>
     <!--
@@ -213,6 +215,8 @@
 
   <bean id="statisticsController" class="org.jasig.cas.web.StatisticsController"
         p:casTicketSuffix="${host.name}" c:ticketRegistry-ref="ticketRegistry" />
+
+  <bean id="sendCaptchaController" class="com.cas.jdbc.rest.SendCaptchaController"/>
 
   <bean id="logoutAction" class="org.jasig.cas.web.flow.LogoutAction"
         p:servicesManager-ref="servicesManager"
